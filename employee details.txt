@@ -1,30 +1,39 @@
 #include <stdio.h>
+#include <stdlib.h>
+struct ContactDetails {
+    long  phoneNumber;
+};
 
-struct Employee {
-    int empId;
-    float salary;
+struct Customer {
+    int accountNumber;
+    struct ContactDetails contact;
+    struct Customer *next;
 };
 
 int main() {
-    struct Employee emp[3];   
-    int i;
+   
+    struct Customer *customer1 = (struct Customer *)malloc(sizeof(struct Customer));
+    customer1->accountNumber = 101;
+    customer1->contact.phoneNumber = 9876543210;
+    customer1->next = NULL; 
+  
+    struct Customer *customer2 = (struct Customer *)malloc(sizeof(struct Customer));
+    customer2->accountNumber = 102;
+    customer2->contact.phoneNumber = 9123456789;
+    customer2->next = NULL;
 
-    for (i = 0; i < 3; i++) {
-        printf("Enter details for Employee %d\n", i + 1);
-        printf("Employee ID: ");
-        scanf("%d", &emp[i].empId);
-        printf("Salary: ");
-        scanf("%f", &emp[i].salary);
-        printf("\n");
+    
+    customer1->next = customer2;
+    struct Customer *current = customer1;
+    while (current != NULL) {
+        printf("%d - %lld", current->accountNumber, current->contact.phoneNumber);
+        if (current->next != NULL) {
+            printf(" -> ");
+        }
+        current = current->next; // Move to the next node
     }
+    printf(" -> NULL\n");
 
-    printf("Employee Details:\n");
-    for (i = 0; i < 3; i++) {
-        printf("Employee %d\n", i + 1);
-        printf("ID: %d\n", emp[i].empId);
-        printf("Salary: %.2f\n", emp[i].salary);
-        printf("\n");
-    }
-
+    
     return 0;
 }
